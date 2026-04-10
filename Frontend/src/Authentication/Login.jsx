@@ -19,16 +19,16 @@ const Login = () => {
                         <p className='mt-2 text-center text-sm text-slate-500'>Select your role to access your portal</p>
                         <div className='mt-6 flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-slate-100 p-1'>
                             <button
+                                className={`flex-1 rounded-2xl px-4 py-2 text-sm font-medium ${role === 'Student' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'}`}
                                 type='button'
                                 onClick={() => setRole('Student')}
-                                className={`flex-1 rounded-2xl px-4 py-2 text-sm font-medium ${role === 'Student' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'}`}
                             >
                                 Student
                             </button>
                             <button
+                                className={`flex-1 rounded-2xl px-4 py-2 text-sm font-medium ${role === 'Teacher' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'}`}
                                 type='button'
                                 onClick={() => setRole('Teacher')}
-                                className={`flex-1 rounded-2xl px-4 py-2 text-sm font-medium ${role === 'Teacher' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'}`}
                             >
                                 Teacher
                             </button>
@@ -37,22 +37,22 @@ const Login = () => {
                             <div>
                                 <label className='mb-2 block text-sm font-medium text-slate-700'>Username / Roll Number</label>
                                 <input
+                                    className='w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
                                     type='text'
                                     placeholder='Username / Roll Number'
-                                    className='w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
                                 />
                             </div>
                             <div>
                                 <label className='mb-2 block text-sm font-medium text-slate-700'>Password</label>
                                 <input
+                                    className='w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
                                     type='password'
                                     placeholder='Password'
-                                    className='w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
                                 />
                             </div>
                             <button
-                                type='submit'
                                 className='w-full rounded-2xl bg-slate-900 py-3 text-sm font-semibold text-white transition hover:bg-slate-800'
+                                type='submit'
                             >
                                 Sign In
                             </button>
