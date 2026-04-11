@@ -7,6 +7,7 @@ const Signin = () => {
             <div className="w-1/4 h-80 bg-red-400">Sidebar</div>
             <div className="grow h-80 bg-green-400">Content</div>
             <div className="w-full h-[50%] bg-gray-400">Footer</div>
+            <div className="w-full h-80 bg-yellow-400">Middle</div>
         </div>
     )
 }
