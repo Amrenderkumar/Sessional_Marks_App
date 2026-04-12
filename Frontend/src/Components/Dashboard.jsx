@@ -3,8 +3,8 @@ import React from 'react'
 const Dashboard = () => {
   return (
     <div>
-      <div>
-        <div>
+      <div className='flex '>
+        <div className='bg-red-300'>
           <span>📘</span>
           <h1>BRCMportal</h1>
         </div>
