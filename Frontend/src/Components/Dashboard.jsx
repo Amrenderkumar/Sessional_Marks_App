@@ -9,13 +9,16 @@ const Dashboard = () => {
           <h1>BRCMportal</h1>
         </div>
         <div>
-           <div className='rounded-full'>
-               <h1>A</h1>
-           </div>
-           <div>
+          <div className='rounded-full'>
+            <h1>A</h1>
+          </div>
+          <div>
             <h3>Name</h3>
             <p>Student,Teacher</p>
-           </div>
+          </div>
+        </div>
+        <div>
+          <h2>Dashboard</h2>
         </div>
       </div>
     </div>
