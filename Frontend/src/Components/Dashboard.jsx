@@ -3,7 +3,21 @@ import React from 'react'
 const Dashboard = () => {
   return (
     <div>
-      <h1>Dashboard</h1>
+      <div>
+        <div>
+          <span>📘</span>
+          <h1>BRCMportal</h1>
+        </div>
+        <div>
+           <div className='rounded-full'>
+               <h1>A</h1>
+           </div>
+           <div>
+            <h3>Name</h3>
+            <p>Student,Teacher</p>
+           </div>
+        </div>
+      </div>
     </div>
   )
 }
