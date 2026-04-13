@@ -12,12 +12,12 @@ const Dashboard = () => {
           <div className='rounded-full'>
             <h1>A</h1>
           </div>
-          <div>
+          <div className='bg-blue-400'>
             <h3>Name</h3>
             <p>Student,Teacher</p>
           </div>
         </div>
-        <div>
+        <div className='bg-sky-400'>
           <h2>Dashboard</h2>
         </div>
       </div>
