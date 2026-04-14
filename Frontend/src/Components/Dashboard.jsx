@@ -13,7 +13,7 @@ const Dashboard = () => {
             <h1>A</h1>
           </div>
           <div className='bg-blue-400'>
-            <h3>Name</h3>
+            <h3 className='font-semibold text-2xl'>Name</h3>
             <p>Student,Teacher</p>
           </div>
         </div>
