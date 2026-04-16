@@ -1,14 +1,29 @@
-import './App.css'
-// import Login from './Authentication/Login'
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Signin from './Authentication/Signin'
 import Dashboard from './Components/Dashboard'
 import Marks from './Components/Marks'
 
+
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Signin />
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />
+  },
+  {
+    path: "/marks",
+    element: <Marks />
+  }
+])
+
 function App() {
   return (
     <div>
-      {/* <Login /> */}
-      <Marks/>
+      <RouterProvider router={router} />
     </div>
   )
 }
