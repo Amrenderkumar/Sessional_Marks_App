@@ -1,5 +1,5 @@
 import React from 'react'
-import Usercard from '../../All component/Usercard'
+import Usercard from '../all components/dashboard/Usercard'
 
 const Dashboard = () => {
   return (
