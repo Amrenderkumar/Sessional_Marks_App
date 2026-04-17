@@ -18,6 +18,14 @@ const Marks = () => {
         { name: 'Science', marks: 89 },
         { name: 'English', marks: 94 }
       ]
+    },
+    {
+      name: 'Alice Johnson',
+      subjects: [
+        { name: 'Math', marks: 78 },
+        { name: 'Science', marks: 82 },
+        { name: 'English', marks: 80 }
+      ]
     }
   ]
 
