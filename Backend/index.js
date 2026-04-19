@@ -30,6 +30,14 @@ app.post("/api/data", (req, res) => {
     res.status(200).json({ message: "Data received successfully", data: { name, email } });
 });
 
+app.get("/api/data", (req, res) => {
+    const sampleData = [
+        { id: 1, name: "Alice", email: "alice@example.com" },
+        { id: 2, name: "Bob", email: "bob@example.com" }
+    ];
+    res.status(200).json({ data: sampleData });
+});
+
 app.get("/jokes", (req, res) => {
     const jokes = [
         {
@@ -39,7 +47,7 @@ app.get("/jokes", (req, res) => {
             joke: "What do you call a fake noodle? An impasta!"
         }
     ];
-    res.send(jokes);
+    res.status(200).json({ jokes });
 });
 
 app.listen(process.env.PORT, () => {
