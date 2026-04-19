@@ -24,6 +24,12 @@ app.use(express.urlencoded({ extended: true }));
 connectDB();
 
 
+app.post("/api/data", (req, res) => {
+    const { name, email } = req.body;
+    console.log("Received data:", { name, email });
+    res.status(200).json({ message: "Data received successfully", data: { name, email } });
+});
+
 app.get("/jokes", (req, res) => {
     const jokes = [
         {
