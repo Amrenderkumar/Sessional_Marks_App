@@ -34,6 +34,14 @@ const cardsdata = [
       valueClass: "text-gray-900 font-extrabold text-2xl",
       border: "border-l-4 border-gray-400",
     },
+    {
+      label: "Attendance",
+      value:  "95%",
+      sub: "Overall attendance",
+      icon: "📅",
+      valueClass: "text-gray-900 font-extrabold text-2xl",
+      border: "border-l-4 border-blue-500",
+    }
   ];
  
   return (
