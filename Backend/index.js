@@ -38,6 +38,10 @@ app.get("/api/data", (req, res) => {
     res.status(200).json({ data: sampleData });
 });
 
+app.get("/api/hello", (req, res) => {
+    res.status(200).json({ message: "Hello from the backend!" });
+});
+
 app.get("/jokes", (req, res) => {
     const jokes = [
         {
