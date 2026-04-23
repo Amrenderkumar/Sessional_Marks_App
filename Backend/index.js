@@ -23,6 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 
 connectDB();
 
+app.get("/", (req, res) => {
+    res.send("Hello World!");
+});
 
 app.post("/api/data", (req, res) => {
     const { name, email } = req.body;
