@@ -1,25 +1,29 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
+import User from '../models/user.model.js';
 
-export function authenticate(req, res, next) {
-  const header = req.headers.authorization;
-  if (!header || !header.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "No token provided" });
-  }
-  const token = header.split(" ")[1];
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch {
-    return res.status(401).json({ error: "Invalid or expired token" });
-  }
-}
-
-export function requireRole(...roles) {
-  return (req, res, next) => {
-    if (!req.user || !roles.includes(req.user.role)) {
-      return res.status(403).json({ error: "Forbidden" });
+const protect = async (req, res, next) => {
+  let token;
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    try {
+      token = req.headers.authorization.split(' ')[1];
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = await User.findById(decoded.id).select('-password');
+      next();
+    } catch (error) {
+      return res.status(401).json({ message: 'Not authorized, token failed' });
     }
-    next();
-  };
-}
+  }
+  if (!token) return res.status(401).json({ message: 'Not authorized, no token' });
+};
+
+const teacherOnly = (req, res, next) => {
+  if (req.user && req.user.role === 'teacher') return next();
+  res.status(403).json({ message: 'Access denied. Teachers only.' });
+};
+
+const studentOnly = (req, res, next) => {
+  if (req.user && req.user.role === 'student') return next();
+  res.status(403).json({ message: 'Access denied. Students only.' });
+};
+
+export { protect, teacherOnly, studentOnly };

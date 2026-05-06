@@ -3,11 +3,11 @@ import Mark from "../models/Marks.model.js";
 import Student from "../models/Student.model.js";
 import Subject from "../models/Subject.model.js";
 import Session from "../models/Session.model.js";
-import { authenticate } from "../middleware/auth.js";
+import { protect } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.get("/overview", authenticate, async (_req, res) => {
+router.get("/overview", protect, async (_req, res) => {
   const [students, subjects, sessions, marks] = await Promise.all([
     Student.countDocuments(),
     Subject.countDocuments(),
@@ -17,7 +17,7 @@ router.get("/overview", authenticate, async (_req, res) => {
   res.json({ students, subjects, sessions, marks });
 });
 
-router.get("/student/:id", authenticate, async (req, res) => {
+router.get("/student/:id", protect, async (req, res) => {
   const marks = await Mark.find({ studentId: req.params.id })
     .populate("subjectId", "name code maxMarks")
     .populate("sessionId", "name year");

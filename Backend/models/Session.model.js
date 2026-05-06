@@ -1,12 +1,9 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const sessionSchema = new mongoose.Schema(
-  {
-    name:     { type: String, required: true, trim: true },
-    year:     { type: String, required: true, trim: true },
-    isActive: { type: Boolean, default: false },
-  },
-  { timestamps: true }
-);
+const sessionSchema = new mongoose.Schema({
+  name: { type: String, required: true, trim: true },
+  year: { type: String, required: true },
+  isActive: { type: Boolean, default: false },
+}, { timestamps: true });
 
-export default mongoose.model("Session", sessionSchema);
+export default mongoose.models.Session || mongoose.model('Session', sessionSchema);

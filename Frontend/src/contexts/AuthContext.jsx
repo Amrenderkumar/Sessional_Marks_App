@@ -13,12 +13,17 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
-  const login = async (username, password) => {
-    const { data } = await api.post("/auth/login", { username, password });
-    localStorage.setItem("brcm_token", data.token);
-    localStorage.setItem("brcm_user", JSON.stringify(data.user));
-    setUser(data.user);
-    return data.user;
+  const login = async (username, password, role) => {
+    try {
+      const { data } = await api.post("/auth/login", { username, password, role });
+      const userData = { _id: data._id, name: data.name, username: data.username, role: data.role };
+      localStorage.setItem("brcm_token", data.token);
+      localStorage.setItem("brcm_user", JSON.stringify(userData));
+      setUser(userData);
+      return { success: true, role: data.role };
+    } catch (error) {
+      return { success: false, message: error.response?.data?.message || 'Login failed' };
+    }
   };
 
   const logout = () => {

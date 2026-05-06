@@ -1,176 +1,149 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import api from "../api/client";
-import { BookOpen, GraduationCap, Users } from "lucide-react";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '../api/client';
 
 export default function Register() {
-  const [role, setRole] = useState("student");
-  const [form, setForm] = useState({ username: "", name: "", password: "", confirm: "" });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [role, setRole] = useState('student');
+  const [form, setForm] = useState({ name: '', username: '', password: '', confirmPassword: '' });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
+    setError('');
+    setSuccess('');
 
-    if (form.password !== form.confirm) {
-      setError("Passwords match nahi kar rahe");
+    if (!form.name || !form.username || !form.password) {
+      setError('All fields are required');
       return;
     }
+
+    if (form.password !== form.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
     if (form.password.length < 6) {
-      setError("Password kam se kam 6 characters hona chahiye");
+      setError('Password must be at least 6 characters');
       return;
     }
 
     setLoading(true);
     try {
-      await api.post("/auth/register", {
-        username: form.username,
+      await api.post('/auth/register', {
         name: form.name,
+        username: form.username,
         password: form.password,
         role,
       });
-      setSuccess("✓ Account ban gaya! Login page pe redirect kar rahe hain...");
-      setTimeout(() => navigate("/login"), 1500);
+      setSuccess('✓ Account created successfully! Redirecting to login...');
+      setTimeout(() => navigate('/login'), 1500);
     } catch (err) {
-      setError(err.response?.data?.error || "Registration failed");
+      setError(err.response?.data?.message || 'Registration failed');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
-      <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-8 flex flex-col items-center">
-          <div className="w-16 h-16 bg-navy-700 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
-            <BookOpen className="w-10 h-10 text-gold-500" />
-          </div>
-          <h1 className="text-3xl font-bold text-navy-700 tracking-tight">BRCMportal</h1>
-          <p className="text-slate-500 mt-2">Create your account</p>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-4">
+      <div className="flex flex-col items-center mb-6">
+        <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-md mb-3">📖</div>
+        <div className="text-[22px] font-bold text-gray-900">BRCMportal</div>
+        <div className="text-[13px] text-gray-500 mt-0.5">Sessional Result Management System</div>
+      </div>
+
+      <div className="bg-white rounded-2xl p-7 w-full max-w-[400px] shadow-lg">
+        <div className="text-lg font-bold text-center mb-1">Create Account</div>
+        <div className="text-[13px] text-gray-500 text-center mb-5">Select your role and register</div>
+
+        <div className="grid grid-cols-2 bg-gray-100 rounded-xl p-[3px] mb-5">
+          {['student', 'teacher'].map((r) => (
+            <button
+              key={r}
+              type="button"
+              onClick={() => setRole(r)}
+              className={`py-2 text-[13px] font-medium rounded-lg border-none cursor-pointer transition-all flex items-center justify-center gap-1.5
+                ${role === r ? 'bg-white text-gray-900 shadow-sm' : 'bg-transparent text-gray-500 hover:text-gray-700'}`}
+            >
+              {r === 'student' ? '🎓' : '👤'} {r.charAt(0).toUpperCase() + r.slice(1)}
+            </button>
+          ))}
         </div>
 
-        {/* Card */}
-        <div className="bg-white rounded-xl shadow-xl border-t-4 border-t-gold-500 overflow-hidden">
-          <div className="px-6 pt-6 pb-2 text-center">
-            <h2 className="text-2xl font-semibold text-navy-700">Sign Up</h2>
-            <p className="text-sm text-slate-500 mt-1">Choose your role and fill details</p>
+        {error && (
+          <div className="bg-red-50 text-red-700 rounded-lg px-3 py-2 text-[13px] mb-3 text-center">{error}</div>
+        )}
+
+        {success && (
+          <div className="bg-green-50 text-green-700 rounded-lg px-3 py-2 text-[13px] mb-3 text-center">{success}</div>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3.5">
+            <label className="block text-[13px] font-medium text-gray-900 mb-1.5">Full Name</label>
+            <input
+              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[14px] bg-gray-50 outline-none focus:border-blue-500 focus:bg-white transition-all"
+              type="text"
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              placeholder="Enter your full name"
+              required
+            />
           </div>
 
-          <div className="p-6">
-            {/* Role Tabs */}
-            <div className="grid grid-cols-2 gap-1 bg-slate-100 p-1 rounded-lg mb-6">
-              <button
-                type="button"
-                onClick={() => setRole("student")}
-                className={`flex items-center justify-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition ${
-                  role === "student"
-                    ? "bg-white text-navy-700 shadow-sm"
-                    : "text-slate-500 hover:text-navy-700"
-                }`}
-              >
-                <GraduationCap className="w-4 h-4" />
-                Student
-              </button>
-              <button
-                type="button"
-                onClick={() => setRole("teacher")}
-                className={`flex items-center justify-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition ${
-                  role === "teacher"
-                    ? "bg-white text-navy-700 shadow-sm"
-                    : "text-slate-500 hover:text-navy-700"
-                }`}
-              >
-                <Users className="w-4 h-4" />
-                Teacher
-              </button>
-            </div>
-
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Full Name</label>
-                <input
-                  type="text"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  placeholder="Your full name"
-                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-500 focus:border-transparent"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                  {role === "student" ? "Roll Number / Username" : "Username"}
-                </label>
-                <input
-                  type="text"
-                  value={form.username}
-                  onChange={(e) => setForm({ ...form, username: e.target.value })}
-                  placeholder={role === "student" ? "S006" : "teacher2"}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-500 focus:border-transparent"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
-                <input
-                  type="password"
-                  value={form.password}
-                  onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  placeholder="At least 6 characters"
-                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-500 focus:border-transparent"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Confirm Password</label>
-                <input
-                  type="password"
-                  value={form.confirm}
-                  onChange={(e) => setForm({ ...form, confirm: e.target.value })}
-                  placeholder="Re-type password"
-                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-500 focus:border-transparent"
-                  required
-                />
-              </div>
-
-              {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-md text-sm">
-                  {error}
-                </div>
-              )}
-              {success && (
-                <div className="bg-green-50 border border-green-200 text-green-700 px-3 py-2 rounded-md text-sm">
-                  {success}
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-navy-700 hover:bg-navy-600 text-white py-2.5 rounded-md font-medium transition disabled:opacity-50"
-              >
-                {loading ? "Creating account..." : "Create Account"}
-              </button>
-            </form>
+          <div className="mb-3.5">
+            <label className="block text-[13px] font-medium text-gray-900 mb-1.5">Username / Roll Number</label>
+            <input
+              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[14px] bg-gray-50 outline-none focus:border-blue-500 focus:bg-white transition-all"
+              type="text"
+              value={form.username}
+              onChange={(e) => setForm({ ...form, username: e.target.value })}
+              placeholder={role === 'student' ? 'e.g. S001' : 'e.g. teacher'}
+              required
+            />
           </div>
 
-          <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 text-center">
-            <p className="text-sm text-slate-500">
-              Already have an account?{" "}
-              <Link to="/login" className="text-navy-700 font-medium hover:underline">
-                Sign In
-              </Link>
-            </p>
+          <div className="mb-3.5">
+            <label className="block text-[13px] font-medium text-gray-900 mb-1.5">Password</label>
+            <input
+              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[14px] bg-gray-50 outline-none focus:border-blue-500 focus:bg-white transition-all"
+              type="password"
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              placeholder="••••••••••"
+              required
+            />
           </div>
+
+          <div className="mb-3.5">
+            <label className="block text-[13px] font-medium text-gray-900 mb-1.5">Confirm Password</label>
+            <input
+              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[14px] bg-gray-50 outline-none focus:border-blue-500 focus:bg-white transition-all"
+              type="password"
+              value={form.confirmPassword}
+              onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
+              placeholder="••••••••••"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-[11px] bg-blue-600 text-white border-none rounded-lg text-[14px] font-semibold cursor-pointer transition-colors mt-1 hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed"
+          >
+            {loading ? 'Creating account...' : 'Create Account'}
+          </button>
+        </form>
+
+        <div className="text-center mt-4 text-[13px]">
+          <span className="text-gray-600">Already have an account? </span>
+          <Link to="/login" className="text-blue-600 font-medium hover:text-blue-700">
+            Sign In Here
+          </Link>
         </div>
       </div>
     </div>

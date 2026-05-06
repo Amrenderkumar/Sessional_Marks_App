@@ -1,58 +1,90 @@
 
-// import User from '../models/user.model.js';
+import User from '../models/user.model.js';
+import Student from '../models/Student.model.js';
+import generateToken from '../JWT/generate.Token.js';
 
-// export const registerUser = async (req, res) => {
-//     const { name, email, password, conformPassword, role } = req.body;
-//     if(!name || !email || !password || !conformPassword || !role) {
-//         return res.status(400).json({ success: false, message: "All fields are required" });
-//     }
-//     if(password !== conformPassword) {
-//         return res.status(400).json({ success: false, message: "Passwords do not match" });
-//     }
-//     let user = await User.findOne({ email });
-//     if(user) {
-//         return res.status(400).json({ success: false, message: "User already exists" });
-//     }
-//     user = await User.create({ name, email, Password: password, conformPassword, role });
-//     const token = user.getJWTToken();
-//     res.status(201).cookie("token", token, {
-//         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-//         httpOnly: true,
-//         secure: process.env.NODE_ENV === "production",
-//         sameSite: "strict"
-//     }).json({
-//         success: true,
-//         message: "User registered successfully", 
-//         user: {
-//             id: user._id,
-//             name: user.name,
-//             email: user.email,
-//             role: user.role
-//         }
-//     });
-// }
+const login = async (req, res) => {
+  try {
+    const { username, password, role } = req.body;
+    const user = await User.findOne({ username, role });
+    if (!user || !(await user.matchPassword(password))) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+    let profileData = null;
+    if (role === 'student') {
+      profileData = await Student.findOne({ userId: user._id });
+    }
+    res.json({
+      _id: user._id, name: user.name,
+      username: user.username, role: user.role,
+      token: generateToken(user._id, user.role),
+      studentProfile: profileData,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
-// export const loginUser = async (req, res) => {
-//     // TODO: Implement login logic
-//     res.json({ message: "Login endpoint" });
-// }
+const register = async (req, res) => {
+  try {
+    const { name, username, password, role, rollNumber, registrationNo, className, section, email } = req.body;
 
-// export const getUser = async (req, res) => {
-//     // TODO: Implement get user logic
-//     res.json({ message: "Get user endpoint" });
-// }
+    if (!name || !username || !password || !role)
+      return res.status(400).json({ message: 'Name, username, password and role are required' });
 
-// export const logoutUser = async (req, res) => {
-//     // TODO: Implement logout logic
-//     res.json({ message: "Logout endpoint" });
-// }
+    if (!['student', 'teacher'].includes(role))
+      return res.status(400).json({ message: 'Role must be student or teacher' });
 
-// export const forgetPassword = async (req, res) => {
-//     // TODO: Implement forget password logic
-//     res.json({ message: "Forget password endpoint" });
-// }
+    const existing = await User.findOne({ username, role });
+    if (existing)
+      return res.status(400).json({ message: 'Username already taken for this role' });
 
-// export const resetPassword = async (req, res) => {
-//     // TODO: Implement reset password logic
-//     res.json({ message: "Reset password endpoint" });
-// }
+    const user = await User.create({ username, password, role, name });
+
+    let studentProfile = null;
+    if (role === 'student') {
+      if (!rollNumber || !registrationNo || !className || !section)
+        return res.status(400).json({ message: 'Roll number, registration no, class and section are required for students' });
+
+      const rollExists = await Student.findOne({ rollNumber });
+      if (rollExists) {
+        await User.findByIdAndDelete(user._id);
+        return res.status(400).json({ message: 'Roll number already exists' });
+      }
+
+      studentProfile = await Student.create({
+        rollNumber,
+        name,
+        registrationNo,
+        className,
+        section,
+        email: email || '',
+        userId: user._id,
+      });
+    }
+
+    res.status(201).json({
+      _id: user._id, name: user.name,
+      username: user.username, role: user.role,
+      token: generateToken(user._id, user.role),
+      studentProfile,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getMe = async (req, res) => {
+  try {
+    const user = req.user;
+    let profileData = null;
+    if (user.role === 'student') {
+      profileData = await Student.findOne({ userId: user._id });
+    }
+    res.json({ ...user._doc, studentProfile: profileData });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export { login, register, getMe };
