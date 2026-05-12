@@ -6,7 +6,8 @@ import Session from '../../models/Session.model.js';
 // @GET /api/marks?sessionId=&subjectId= - Get marks for entry table
 const getMarksForEntry = async (req, res) => {
   try {
-    const { sessionId, subjectId } = req.query;
+    const sessionId = req.query.sessionId || req.query.session;
+    const subjectId = req.query.subjectId || req.query.subject;
     if (!sessionId || !subjectId) return res.status(400).json({ message: 'sessionId and subjectId required' });
 
     const students = await Student.find().sort({ rollNumber: 1 });

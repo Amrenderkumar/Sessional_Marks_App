@@ -29,11 +29,11 @@ export const activateSession = (id) => api.put(`/sessions/${id}/activate`);
 export const deleteSession = (id) => api.delete(`/sessions/${id}`);
 
 // Marks API
-export const getMarksForEntry = (sessionId, subjectId) => api.get(`/marks?session=${sessionId}&subject=${subjectId}`);
+export const getMarksForEntry = (sessionId, subjectId) => api.get(`/marks?sessionId=${sessionId}&subjectId=${subjectId}`);
 export const saveMarks = (data) => api.post('/marks/save', data);
 
 // Analytics API
 export const getAnalytics = (sessionId) => api.get(`/students/analytics/overview?sessionId=${sessionId || ''}`);
 
 // Teacher Dashboard API
-export const getTeacherDashboard = () => api.get('/students/dashboard');
+export const getTeacherDashboard = () => api.get('/marks/dashboard');
