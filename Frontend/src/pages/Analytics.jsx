@@ -21,14 +21,14 @@ export default function Analytics() {
   ] : [];
 
   return (
-    <div className="px-10 py-8 max-w-[1200px]">
-      <div className="flex justify-between items-start mb-7">
+    <div className="px-4 py-6 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-7">
         <div>
-          <h1 className="text-[26px] font-bold text-gray-900 tracking-tight">Analytics</h1>
-          <p className="text-[13px] text-gray-500 mt-0.5">School performance metrics</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">Analytics</h1>
+          <p className="text-sm text-gray-500 mt-0.5">School performance metrics</p>
         </div>
         <select
-          className="bg-white border border-gray-200 rounded-lg px-3 py-2 text-[13px] text-gray-900 outline-none min-w-[200px] cursor-pointer"
+          className="w-full sm:w-auto bg-white border border-gray-200 rounded-lg px-3 py-2 text-[13px] text-gray-900 outline-none min-w-[200px] cursor-pointer"
           value={selSess} onChange={e => setSelSess(e.target.value)}>
           <option value="">Active Session</option>
           {sessions.map(s => <option key={s._id} value={s._id}>{s.name}{s.isActive?' (Active)':''}</option>)}
@@ -42,7 +42,7 @@ export default function Analytics() {
       ) : (
         <>
       
-          <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-6">
             {[
               { label:'Overall Pass Rate',       value:`${data?.overallPassRate||0}%` },
               { label:'Global Average',           value: data?.globalAverage||0 },
@@ -56,7 +56,7 @@ export default function Analytics() {
           </div>
 
         
-          <div className="grid gap-5" style={{ gridTemplateColumns:'1fr 380px' }}>
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-5">
 
         
             <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">

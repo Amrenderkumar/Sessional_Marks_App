@@ -28,30 +28,30 @@ export default function TeacherDashboard() {
   );
 
   return (
-    <div className="px-10 py-8 max-w-[1200px]">
+    <div className="px-4 py-6 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
 
       {/* Header */}
-      <div className="flex justify-between items-start mb-7">
+      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between mb-7">
         <div>
-          <h1 className="text-[26px] font-bold text-gray-900 tracking-tight">Dashboard</h1>
-          <p className="text-[13px] text-gray-500 mt-0.5">Welcome back, {user?.name}. Here's what's happening today.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">Dashboard</h1>
+          <p className="text-sm text-gray-500 mt-1">Welcome back, {user?.name}. Here's what's happening today.</p>
         </div>
         {data?.activeSession && (
-          <div className="flex items-center gap-1.5 bg-white border border-gray-200 rounded-md px-3 py-1.5 text-[12px] text-gray-500 font-medium">
+          <div className="inline-flex items-center gap-1.5 bg-white border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-500 font-medium">
             🕐 Active Session: {data.activeSession.name} ({data.activeSession.year})
           </div>
         )}
       </div>
 
  
-      <div className="grid grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
         <StatCard label="Total Students"  value={data?.totalStudents  || 0} desc="Registered in system" />
         <StatCard label="Pass Percentage" value={`${data?.passPercentage || 0}%`} desc="Across all subjects" yellow />
         <StatCard label="Total Subjects"  value={data?.totalSubjects  || 0} desc="Offered courses" />
         <StatCard label="Average Score"   value={data?.averageScore   || 0} desc="Overall average marks" />
       </div>
 
-      <div className="grid gap-5" style={{ gridTemplateColumns: '1fr 380px' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-5">
 
 
         <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">

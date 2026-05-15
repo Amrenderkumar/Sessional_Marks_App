@@ -22,10 +22,10 @@ export default function Performance() {
   })) || [];
 
   return (
-    <div className="px-10 py-8 max-w-[1200px]">
+    <div className="px-4 py-6 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
       <div className="mb-7">
-        <h1 className="text-[26px] font-bold text-gray-900 tracking-tight">Performance Trend</h1>
-        <p className="text-[13px] text-gray-500 mt-0.5">Track your progress across academic sessions</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">Performance Trend</h1>
+        <p className="text-sm text-gray-500 mt-0.5">Track your progress across academic sessions</p>
       </div>
 
       {/* Chart card */}
@@ -65,7 +65,7 @@ export default function Performance() {
 
    
       {data?.performanceData?.length > 0 && (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {data.performanceData.map((p, i) => (
             <div key={i} className="bg-white rounded-lg border border-gray-200 shadow-sm p-4">
               <div className="flex justify-between items-start">

@@ -35,13 +35,13 @@ export default function Sessions() {
   };
 
   return (
-    <div className="px-10 py-8 max-w-[1200px]">
+    <div className="px-4 py-6 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
       {toast && <Toast {...toast} />}
 
-      <div className="flex justify-between items-start mb-7">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-7">
         <div>
-          <h1 className="text-[26px] font-bold text-gray-900 tracking-tight">Sessional Sessions</h1>
-          <p className="text-[13px] text-gray-500 mt-0.5">Manage academic years and terms</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">Sessional Sessions</h1>
+          <p className="text-sm text-gray-500 mt-0.5">Manage academic years and terms</p>
         </div>
         <button onClick={() => setShowModal(true)}
           className="flex items-center gap-1.5 px-4 py-2 bg-[#1a1a2e] text-white rounded-lg text-[13px] font-medium cursor-pointer hover:bg-[#2d2d4e] border-none">
@@ -59,7 +59,7 @@ export default function Sessions() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
+            <table className="w-full min-w-[720px] border-collapse">
               <thead>
                 <tr>
                   {['Session Name','Sessional Year','Status','Created',''].map(h => (

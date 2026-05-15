@@ -27,16 +27,16 @@ export default function StudentDashboard() {
   const { student, result, activeSession } = data || {};
 
   return (
-    <div className="px-10 py-8 max-w-[1200px]">
+    <div className="px-4 py-6 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
 
       
       <div className="mb-7">
-        <h1 className="text-[26px] font-bold text-gray-900 tracking-tight">Student Portal</h1>
-        <p className="text-[13px] text-gray-500 mt-0.5">Welcome back, {user?.name}. Here's your academic summary.</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">Student Portal</h1>
+        <p className="text-sm text-gray-500 mt-0.5">Welcome back, {user?.name}. Here's your academic summary.</p>
       </div>
 
 
-      <div className="grid grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
   
         <div className="bg-white rounded-lg p-5 border border-gray-200 shadow-sm">
           <div className="text-[12px] text-gray-500 font-medium mb-2">Current Status</div>
@@ -70,7 +70,7 @@ export default function StudentDashboard() {
       </div>
 
     
-      <div className="grid gap-5" style={{ gridTemplateColumns:'1fr 360px' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-5">
 
         <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
           <div className="px-5 pt-[18px] pb-3.5 border-b border-gray-100">

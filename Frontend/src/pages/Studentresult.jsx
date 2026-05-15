@@ -44,18 +44,18 @@ export default function Results() {
   const activeResult = data?.results?.[activeIdx];
 
   return (
-    <div className="px-10 py-8 max-w-[1200px]">
+    <div className="px-4 py-6 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
 
       
-      <div className="flex justify-between items-start mb-7">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-7">
         <div>
-          <h1 className="text-[26px] font-bold text-gray-900 tracking-tight">My Results</h1>
-          <p className="text-[13px] text-gray-500 mt-0.5">Detailed subject-wise performance</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">My Results</h1>
+          <p className="text-sm text-gray-500 mt-0.5">Detailed subject-wise performance</p>
         </div>
-        <div className="flex gap-2.5 items-center">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
           {data?.results?.length > 0 && (
             <select
-              className="bg-white border border-gray-200 rounded-lg px-3 py-2 text-[13px] text-gray-900 outline-none cursor-pointer"
+              className="bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 outline-none cursor-pointer"
               value={activeIdx} onChange={e => setActiveIdx(Number(e.target.value))}>
               {data.results.map((r, i) => (
                 <option key={r._id} value={i}>{r.session?.name}</option>
@@ -77,12 +77,12 @@ export default function Results() {
       ) : (
         <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
   
-          <div className="bg-gray-100 px-5 py-4 flex justify-between items-center">
+          <div className="bg-gray-100 px-5 py-4 flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
             <div>
               <div className="text-lg font-bold text-gray-900">{activeResult.session?.name}</div>
               <div className="text-[12px] text-gray-500 mt-0.5">Sessional Year {activeResult.session?.year}</div>
             </div>
-            <div className="flex gap-8">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <div className="text-center">
                 <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">TOTAL MARKS</div>
                 <div className="text-xl font-bold text-gray-900 mt-0.5">{activeResult.totalMarks}/{activeResult.maxTotalMarks}</div>
@@ -101,7 +101,7 @@ export default function Results() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
+            <table className="w-full min-w-[720px] border-collapse">
               <thead>
                 <tr>
                   {['Subject','Code','Max Marks','Passing Marks','Marks Obtained','Grade','Remarks'].map(h => (

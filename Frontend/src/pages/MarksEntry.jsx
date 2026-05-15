@@ -61,17 +61,17 @@ export default function MarksEntry() {
   const selectCls  = "bg-white border border-gray-200 rounded-lg px-3 py-2 text-[13px] text-gray-900 outline-none min-w-[200px] cursor-pointer";
 
   return (
-    <div className="px-10 py-8 max-w-[1200px]">
+    <div className="px-4 py-6 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
       {toast && <Toast {...toast} />}
 
       <div className="mb-7">
-        <h1 className="text-[26px] font-bold text-gray-900 tracking-tight">Marks Entry</h1>
-        <p className="text-[13px] text-gray-500 mt-0.5">Record and update student scores</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">Marks Entry</h1>
+        <p className="text-sm text-gray-500 mt-0.5">Record and update student scores</p>
       </div>
 
       <div className="bg-white rounded-lg border border-gray-200 shadow-sm mb-5">
-        <div className="p-5 flex gap-4 items-end flex-wrap">
-          <div>
+        <div className="p-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:flex-wrap">
+          <div className="w-full sm:w-auto">
             <label className="block text-[13px] font-medium text-gray-700 mb-1.5">Sessional Session</label>
             <select className={selectCls} value={selectedSession} onChange={e => setSelectedSession(e.target.value)}>
               <option value="">Select Session</option>
@@ -87,7 +87,7 @@ export default function MarksEntry() {
           </div>
           {marksData.length > 0 && (
             <button onClick={handleSave} disabled={saving}
-              className="ml-auto flex items-center gap-1.5 px-4 py-2 bg-[#1a1a2e] text-white rounded-lg text-[13px] font-medium cursor-pointer hover:bg-[#2d2d4e] disabled:opacity-50 border-none">
+              className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2 bg-[#1a1a2e] text-white rounded-lg text-[13px] font-medium cursor-pointer hover:bg-[#2d2d4e] disabled:opacity-50 border-none">
               {saving ? 'Saving...' : '💾 Save Marks'}
             </button>
           )}
@@ -107,7 +107,7 @@ export default function MarksEntry() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
+            <table className="w-full min-w-[620px] border-collapse">
               <thead>
                 <tr>
                   <th className="text-[12px] font-medium text-gray-400 text-left px-4 py-2.5 border-b border-gray-100">Roll No.</th>

@@ -30,7 +30,7 @@ const studentNav = [
   { label: 'Performance', icon: 'Performance', path: '/student/performance' },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ open, onClose }) {
   const { user, logout } = useAuth();
   const navigate  = useNavigate();
   const location  = useLocation();
@@ -38,12 +38,27 @@ export default function Sidebar() {
   const initial   = user?.name?.charAt(0)?.toUpperCase() || 'U';
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-[210px] bg-[#0f1117] flex flex-col z-50">
+    <>
+      <div
+        className={`${open ? 'block' : 'hidden'} fixed inset-0 bg-black/50 z-40 md:hidden`}
+        onClick={onClose}
+      />
 
-      <div className="flex items-center gap-2.5 px-4 py-5 border-b border-[#1e2030]">
-        <div className="w-8 h-8 bg-amber-500 rounded-md flex items-center justify-center text-base">📖</div>
-        <span className="text-white text-[15px] font-bold tracking-tight">BRCMportal</span>
-      </div>
+      <aside className={`fixed inset-y-0 left-0 z-50 w-[210px] transform bg-[#0f1117] flex flex-col transition-transform duration-200 ease-in-out ${open ? 'translate-x-0' : '-translate-x-full'} hidden md:block md:translate-x-0`}>
+
+        <div className="flex items-center justify-between gap-2.5 px-4 py-5 border-b border-[#1e2030]">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-amber-500 rounded-md flex items-center justify-center text-base">📖</div>
+            <span className="text-white text-[15px] font-bold tracking-tight">BRCMportal</span>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="md:hidden rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-white hover:bg-white/10"
+          >
+            ✕
+          </button>
+        </div>
 
       {/* User info */}
       <div className="flex items-center gap-2.5 px-4 py-4 border-b border-[#1e2030]">
@@ -63,7 +78,10 @@ export default function Sidebar() {
           return (
             <button
               key={item.path}
-              onClick={() => navigate(item.path)}
+              onClick={() => {
+                navigate(item.path);
+                onClose?.();
+              }}
               className={`flex items-center gap-2.5 px-2.5 py-2 rounded-md text-[13px] w-full text-left border-none cursor-pointer transition-all duration-150
                 ${isActive
                   ? 'bg-[#1c2235] text-amber-400 font-medium border-l-[3px] border-amber-400'
@@ -86,5 +104,6 @@ export default function Sidebar() {
         </button>
       </div>
     </aside>
+    </>
   );
 }

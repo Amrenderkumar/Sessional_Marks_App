@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import Sidebar from './components/Sidebar';
@@ -18,16 +18,35 @@ import Performance from './pages/StudentPerformance';
 
 function ProtectedLayout({ children, requiredRole }) {
   const { user } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   if (!user) return <Navigate to="/login" replace />;
   if (requiredRole && user.role !== requiredRole) {
     return <Navigate to={user.role === 'teacher' ? '/teacher/dashboard' : '/student/dashboard'} replace />;
   }
+
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <Sidebar />
-      <main className="ml-[210px] flex-1 min-h-screen bg-gray-50">
-        {children}
-      </main>
+      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+
+      <div className="flex-1 min-h-screen md:ml-[210px]">
+        <div className="sticky top-0 z-40 bg-gray-50 border-b border-gray-200 md:hidden">
+          <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+            >
+              <span className="text-lg">☰</span>
+              Menu
+            </button>
+            <div className="text-sm font-semibold text-gray-900">BRCMportal</div>
+          </div>
+        </div>
+
+        <main className="min-h-screen bg-gray-50">
+          {children}
+        </main>
+      </div>
     </div>
   );
 }

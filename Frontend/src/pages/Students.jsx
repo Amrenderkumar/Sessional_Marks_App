@@ -36,9 +36,9 @@ export default function Students() {
   };
 
   return (
-    <div className="p-6">
+    <div className="px-4 py-6 sm:px-6 lg:px-8 max-w-[1200px] mx-auto">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Students</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Students</h1>
         <p className="text-gray-600 mt-2">Manage student information and records</p>
       </div>
 
@@ -61,8 +61,8 @@ export default function Students() {
           <p className="text-gray-400">Add a student to get started</p>
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <table className="w-full">
+        <div className="bg-white rounded-lg shadow overflow-x-auto">
+          <table className="w-full min-w-[720px]">
             <thead>
               <tr className="bg-gray-50 border-b">
                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Name</th>
