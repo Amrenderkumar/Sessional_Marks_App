@@ -44,7 +44,7 @@ export default function Sidebar({ open, onClose }) {
         onClick={onClose}
       />
 
-      <aside className={`fixed inset-y-0 left-0 z-50 w-[210px] transform bg-[#0f1117] flex flex-col transition-transform duration-200 ease-in-out ${open ? 'translate-x-0' : '-translate-x-full'} hidden md:block md:translate-x-0`}>
+      <aside className={`fixed inset-y-0 left-0 z-50 w-[210px] transform bg-[#0f1117] flex flex-col transition-transform duration-200 ease-in-out ${open ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
 
         <div className="flex items-center justify-between gap-2.5 px-4 py-5 border-b border-[#1e2030]">
           <div className="flex items-center gap-2.5">
