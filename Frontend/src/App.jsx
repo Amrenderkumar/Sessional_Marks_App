@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
-import Sidebar from './components/Sidebar';
+import Sidebar from './Components/Sidebar';
 
 // Pages
 import Login from './Authentication/Login';
