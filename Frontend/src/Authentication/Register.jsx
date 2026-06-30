@@ -4,7 +4,17 @@ import api from '../api/client';
 
 export default function Register() {
   const [role, setRole] = useState('student');
-  const [form, setForm] = useState({ name: '', username: '', password: '', confirmPassword: '' });
+  const [form, setForm] = useState({
+    name: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
+    rollNumber: '',
+    registrationNo: '',
+    className: '',
+    section: '',
+    email: '',
+  });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,16 +42,33 @@ export default function Register() {
 
     setLoading(true);
     try {
-      await api.post('/auth/register', {
+      const payload = {
         name: form.name,
         username: form.username,
         password: form.password,
         role,
-      });
+      };
+
+      if (role === 'student') {
+        if (!form.rollNumber || !form.registrationNo || !form.className || !form.section) {
+          setError('All student fields are required');
+          setLoading(false);
+          return;
+        }
+        payload.rollNumber = form.rollNumber;
+        payload.registrationNo = form.registrationNo;
+        payload.className = form.className;
+        payload.section = form.section;
+        if (form.email) payload.email = form.email;
+      }
+
+      console.log('Register payload', payload);
+      await api.post('/auth/register', payload);
       setSuccess('✓ Account created successfully! Redirecting to login...');
       setTimeout(() => navigate('/login'), 1500);
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      console.error('Registration error', err);
+      setError(err.response?.data?.message || err.message || 'Registration failed');
     } finally {
       setLoading(false);
     }
@@ -95,7 +122,7 @@ export default function Register() {
           </div>
 
           <div className="mb-3.5">
-            <label className="block text-[13px] font-medium text-gray-900 mb-1.5">Username / Roll Number</label>
+            <label className="block text-[13px] font-medium text-gray-900 mb-1.5">Username</label>
             <input
               className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[14px] bg-gray-50 outline-none focus:border-blue-500 focus:bg-white transition-all"
               type="text"
@@ -105,6 +132,70 @@ export default function Register() {
               required
             />
           </div>
+
+          {role === 'student' && (
+            <>
+              <div className="mb-3.5">
+                <label className="block text-[13px] font-medium text-gray-900 mb-1.5">Roll Number</label>
+                <input
+                  className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[14px] bg-gray-50 outline-none focus:border-blue-500 focus:bg-white transition-all"
+                  type="text"
+                  value={form.rollNumber}
+                  onChange={(e) => setForm({ ...form, rollNumber: e.target.value })}
+                  placeholder="e.g. R001"
+                  required
+                />
+              </div>
+
+              <div className="mb-3.5">
+                <label className="block text-[13px] font-medium text-gray-900 mb-1.5">Registration Number</label>
+                <input
+                  className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[14px] bg-gray-50 outline-none focus:border-blue-500 focus:bg-white transition-all"
+                  type="text"
+                  value={form.registrationNo}
+                  onChange={(e) => setForm({ ...form, registrationNo: e.target.value })}
+                  placeholder="e.g. 2024-001"
+                  required
+                />
+              </div>
+
+              <div className="mb-3.5 grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[13px] font-medium text-gray-900 mb-1.5">Class</label>
+                  <input
+                    className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[14px] bg-gray-50 outline-none focus:border-blue-500 focus:bg-white transition-all"
+                    type="text"
+                    value={form.className}
+                    onChange={(e) => setForm({ ...form, className: e.target.value })}
+                    placeholder="e.g. 10th"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-[13px] font-medium text-gray-900 mb-1.5">Section</label>
+                  <input
+                    className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[14px] bg-gray-50 outline-none focus:border-blue-500 focus:bg-white transition-all"
+                    type="text"
+                    value={form.section}
+                    onChange={(e) => setForm({ ...form, section: e.target.value })}
+                    placeholder="e.g. A"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="mb-3.5">
+                <label className="block text-[13px] font-medium text-gray-900 mb-1.5">Email (optional)</label>
+                <input
+                  className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[14px] bg-gray-50 outline-none focus:border-blue-500 focus:bg-white transition-all"
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  placeholder="you@example.com"
+                />
+              </div>
+            </>
+          )}
 
           <div className="mb-3.5">
             <label className="block text-[13px] font-medium text-gray-900 mb-1.5">Password</label>
